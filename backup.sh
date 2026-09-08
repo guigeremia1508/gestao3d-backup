@@ -2,13 +2,6 @@
 set -Eeuo pipefail
 
 : "${DATABASE_URL:?DATABASE_URL não configurada}"
-
-if [[ "$DATABASE_URL" == postgresql://* || "$DATABASE_URL" == postgres://* ]]; then
-    echo "DATABASE_URL OK - URL PostgreSQL detectada"
-else
-    echo "ERRO: DATABASE_URL não está em formato PostgreSQL"
-fi
-
 : "${BUCKET:?BUCKET não configurado}"
 : "${ENDPOINT:?ENDPOINT não configurado}"
 
@@ -47,6 +40,7 @@ echo
 
 echo "1. Criando dump do PostgreSQL..."
 
+# Usa diretamente a DATABASE_URL fornecida pelo Railway
 pg_dump \
     --dbname="$DATABASE_URL" \
     --format=custom \
